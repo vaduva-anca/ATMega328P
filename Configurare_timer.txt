@@ -1,0 +1,20 @@
+int currentValue=0;
+#define pin 17
+void setup() {
+  noInterrupts();
+  TCCR1A = 0b00000000; //(COM1A1,COM1A0,COM1B1,COM1B0)NORMAL PORT OPERATION,-,-,(WGM11,WGM10)MOD NORMAL
+  TCCR1B = 0b00000101; // ICNC1(PT ZGOMOT),ICES1(FALLING EDGE),-,(WGM13,WGM12)MOD NORMAL,(CS12,CS11,CS10)
+  TIMSK1 = 0b000000001; // TOIE1-OVERFLOW
+  TCNT1 = 49910;
+  interrupts();
+
+}
+ISR(TIMER1_OVF_vect)                    // interrupt service routine for overflow
+{ TCNT1 = 49910;
+  digitalWrite(pin,currentValue);
+  currentValue=!currentValue;
+  
+}
+
+void loop() {
+}

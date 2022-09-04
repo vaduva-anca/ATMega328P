@@ -1,0 +1,76 @@
+typedef enum
+{ BIT_MASK0 = 0x01,
+  BIT_MASK1 = 0x02,
+  BIT_MASK2 = 0x04,
+  BIT_MASK3 = 0x08,
+  BIT_MASK4 = 0x10,
+  BIT_MASK5 = 0x20,
+  BIT_MASK6 = 0x40,
+  BIT_MASK7 = 0x80
+} BIT_MASK;
+typedef enum
+{ DIO_LED1 = 56, // 17
+  DIO_LED2 = 57, // 16
+  DIO_LED3 = 59, // 6
+  DIO_LED4 = 60, // 7
+  DIO_LED5 = 61, // 8
+  DIO_LED6 = 62, // 9
+  DIO_LED7 = 14, // 12
+  DIO_LED8 = 15  // 13
+} PinIdType;
+typedef enum
+{ DIO_HIGH = 0x01,
+  DIO_LOW = 0x00
+} PinValue;
+void setup() {
+  // put your setup code here, to run once:
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  my_digitalWrite(DIO_LED6, DIO_HIGH);
+}
+
+void my_digitalWrite(PinIdType PinId, PinValue Value)
+{ int pin = PinId % 8;
+  int port = PinId / 8;
+  switch (port)
+  {
+    case 0:
+      DDRA = DDRA | (BIT_MASK0 << pin);
+      PORTA = Value << pin;
+      break;
+    case 1:
+      DDRB = DDRB | (BIT_MASK0 << pin);
+      PORTB = Value << pin;
+      break;
+    case 2:
+      DDRC = DDRC | (BIT_MASK0 << pin);
+      PORTC = Value << pin;
+      break;
+    case 3:
+      DDRD = DDRD | (BIT_MASK0 << pin);
+      PORTD = Value << pin;
+      break;
+    case 4:
+      DDRE = DDRE | (BIT_MASK0 << pin);
+      PORTE = Value << pin;
+      break;
+    case 5:
+      DDRF = DDRF | (BIT_MASK0 << pin);
+      PORTF = Value << pin;
+      break;
+    case 6:
+      DDRG = DDRG | (BIT_MASK0 << pin);
+      PORTG = Value << pin;
+      break;
+    case 7:
+      DDRH = DDRH | (BIT_MASK0 << pin);
+      PORTH = Value << pin;
+      break;
+    case 8:
+      DDRJ = DDRJ | (BIT_MASK0 << pin);
+      PORTJ = Value << pin;
+      break;
+  }
+}

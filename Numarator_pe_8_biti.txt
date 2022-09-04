@@ -1,0 +1,58 @@
+void setup() {
+  // put your setup code here, to run once:
+
+  pinMode(17, OUTPUT);
+  pinMode(16, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(12, OUTPUT);
+  pinMode(13, OUTPUT);
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  led(255);
+}
+void led(int nr) {
+  int v[8];
+  int i = 0;
+  if (nr < 256)
+  {
+    for (i = 0; i < 8; i++)
+    { v[i] = nr % 2;
+      nr = nr / 2;
+    }
+    digitalWrite(17, v[0]);
+    digitalWrite(16, v[1]);
+    digitalWrite(6, v[2]);
+    digitalWrite(7, v[3]);
+    digitalWrite(8, v[4]);
+    digitalWrite(9, v[5]);
+    digitalWrite(12, v[6]);
+    digitalWrite(13, v[7]);
+  }
+  else
+  {
+    digitalWrite(17, HIGH);
+    digitalWrite(16, HIGH);
+    digitalWrite(6, HIGH);
+    digitalWrite(7, HIGH);
+    digitalWrite(8, HIGH);
+    digitalWrite(9, HIGH);
+    digitalWrite(12, HIGH);
+    digitalWrite(13, HIGH);
+    delay(300);
+    digitalWrite(17, LOW);
+    digitalWrite(16, LOW);
+    digitalWrite(6, LOW);
+    digitalWrite(7, LOW);
+    digitalWrite(8, LOW);
+    digitalWrite(9, LOW);
+    digitalWrite(12, LOW);
+    digitalWrite(13, LOW);
+    delay(300);
+  }
+}

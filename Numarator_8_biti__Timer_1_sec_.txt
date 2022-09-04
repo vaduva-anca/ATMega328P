@@ -1,0 +1,69 @@
+// 65535-(16*(10^6)*1/1024)=49910 1sec
+
+int nr = 0;
+void setup() {
+  // put your setup code here, to run once:
+  noInterrupts();
+  TCCR1A = 0b00000000; //(COM1A1,COM1A0,COM1B1,COM1B0)NORMAL PORT OPERATION,-,-,(WGM11,WGM10)MOD NORMAL
+  TCCR1B = 0b00000101; // ICNC1(PT ZGOMOT),ICES1(FALLING EDGE),-,(WGM13,WGM12)MOD NORMAL,(CS12,CS11,CS10)
+  TIMSK1 = 0b000000001; // TOIE1-OVERFLOW
+  TCNT1 = 49910; // 1 sec
+  interrupts();
+  pinMode(17, OUTPUT); // LED 1
+  pinMode(16, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(12, OUTPUT);
+  pinMode(13, OUTPUT); // LED 8
+}
+ISR(TIMER1_OVF_vect)                    // interrupt service routine for overflow
+{ TCNT1 = 49910;
+  nr = nr + 1;
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  led(nr);
+
+}
+void led(int nr) {
+  int v[8];
+  int i = 0;
+  if (nr < 256)
+  {
+    for (i = 0; i < 8; i++)
+    { v[i] = nr % 2;
+      nr = nr / 2;
+    }
+    digitalWrite(17, v[0]);
+    digitalWrite(16, v[1]);
+    digitalWrite(6, v[2]);
+    digitalWrite(7, v[3]);
+    digitalWrite(8, v[4]);
+    digitalWrite(9, v[5]);
+    digitalWrite(12, v[6]);
+    digitalWrite(13, v[7]);
+  }
+  else
+  { digitalWrite(17, HIGH);
+    digitalWrite(16, HIGH);
+    digitalWrite(6, HIGH);
+    digitalWrite(7, HIGH);
+    digitalWrite(8, HIGH);
+    digitalWrite(9, HIGH);
+    digitalWrite(12, HIGH);
+    digitalWrite(13, HIGH);
+    delay(300);
+    digitalWrite(17, LOW);
+    digitalWrite(16, LOW);
+    digitalWrite(6, LOW);
+    digitalWrite(7, LOW);
+    digitalWrite(8, LOW);
+    digitalWrite(9, LOW);
+    digitalWrite(12, LOW);
+    digitalWrite(13, LOW);
+    delay(300);
+  }
+}
